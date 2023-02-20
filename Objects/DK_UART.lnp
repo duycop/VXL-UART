@@ -1,3 +1,3 @@
-".\Objects\CODE_HELLO.obj" 
+".\Objects\code_may_giat.obj" 
 TO ".\Objects\DK_UART" 
 PRINT(".\Listings\DK_UART.m51")

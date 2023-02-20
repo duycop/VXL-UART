@@ -1,0 +1,245 @@
+A51 MACRO ASSEMBLER  CODE_MAY_GIAT                                                        02/20/2023 15:41:51 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.7.0
+OBJECT MODULE PLACED IN .\Objects\code_may_giat.obj
+ASSEMBLER INVOKED BY: D:\Keil_v5\C51\BIN\A51.EXE code_may_giat.asm SET(SMALL) DEBUG PRINT(.\Listings\code_may_giat.lst) 
+                      OBJECT(.\Objects\code_may_giat.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+                       1     ;DAU BAI: dk may giat (dong co 1 chieu+ H)
+                       2     ;ban dau dong co STOP
+                       3     ;NEU NHAN DC: P thì dong co quay Phai
+                       4     ;NEU NHAN DC: T thi dong co quay Trai
+                       5     ;NEU NHAN DC: D thi dong co Dung
+                       6     ;NEU NHAN DC: G thi quay trai 3s
+                       7     ;             roi dung 1s
+                       8     ;                         ròi phai 3s
+                       9     ;                         roi dung 1s ... va lap lai
+                      10     
+  0093                11     dk1 BIT P1.3
+  0095                12     dk2 BIT P1.5
+                      13             
+0000                  14     ORG 0
+                      15             ; ban dau dong co Dung
+0000 C293             16             CLR dk1
+0002 C295             17             CLR dk2
+                      18             
+0004 758921           19             MOV TMOD,#21H    ; TIMER1 MODE 2 (8 BIT-AUTO RELOAD)
+                      20                              ; TIMER0 MODE 1 (16 BIT)
+0007 758DFD           21             MOV TH1, #0FDH   ; FDH <==> 9600 BPS
+000A D28E             22             SETB TR1                 ; START TIMER1
+000C 759850           23             MOV SCON, #50H   ; UART ENABLE TX, ENABLE RX
+                      24             
+                      25             ;BIT SMOD DEFAULT = 0
+                      26             ;BIT SMOD=1 THI TOC DO TRUYEN X 2
+                      27             ;MUON TREN TOC DO 19200 -> THIET LAP 9600, BAT SMOD=1
+000F E587             28             MOV A, PCON ; SAO CHEP THANH GHI DIEU KHIEN CHUONG TRINH
+0011 D2E7             29             SETB ACC.7  ; DAT BIT 7  = 1 (BIT CAO NHAT, DAY LA BIT SMOD)
+0013 F587             30             MOV PCON, A ; COPY TRA LAI PCON
+                      31             
+0015 7444             32             MOV A,#'D'  ; KO CAN NHAN, A BAN DAU LA 'D' SAN
+0017                  33             MAIN:
+0017 111D             34                     ACALL nhan1kitu
+0019 1127             35                     acall dieukhienDC
+001B 80FA             36             JMP MAIN
+                      37             
+001D                  38             nhan1kitu:
+001D C298             39                     CLR RI          ;1. bat dau NHAN 1 KITU VE
+001F                  40                     WAIT:
+001F 1127             41                             acall dieukhienDC
+0021 3098FB           42                     JNB RI, WAIT  ;2. doi nhan xong         
+0024 E599             43                     MOV A, SBUF ;3. lay ki tu nhan dc               
+0026 22               44             RET
+                      45             
+0027                  46             dieukhienDC:
+                      47                     ;ki tu dieu khien trong A
+0027 B45005           48                     cjne A,#'P',ko_phai_P
+                      49                             ;quay phai
+002A 1180             50                             ACALL PHAI
+002C 7400             51                             MOV A,#0   ; A KO CON LA 'P' NUA
+002E 22               52                             ret
+002F                  53                     ko_phai_P:
+                      54                     
+002F B45405           55                     cjne A,#'T',ko_phai_T
+                      56                             ;quay trai
+0032 1176             57                             ACALL TRAI
+A51 MACRO ASSEMBLER  CODE_MAY_GIAT                                                        02/20/2023 15:41:51 PAGE     2
+
+0034 7400             58                             MOV A,#0   ; A KO CON LA 'T' NUA
+0036 22               59                             RET
+0037                  60                     ko_phai_T:
+                      61                     
+                      62                     
+0037 B45302           63                     cjne A,#'S',ko_phai_S
+003A 8003             64                             JMP DO_STOP
+003C                  65                     ko_phai_S:
+                      66                     
+003C B4440A           67                     cjne A,#'D',ko_phai_D
+                      68                             ;stop
+003F                  69                             DO_STOP:
+003F 118A             70                             ACALL STOP
+0041 9000EE           71                             MOV DPTR,#S4
+0044 1194             72                             ACALL TRUYEN_STRING
+0046 7400             73                             MOV A,#0   ; A KO CON LA 'D' NUA
+0048 22               74                             RET
+0049                  75                     ko_phai_D:
+                      76                     
+0049 B44715           77                     cjne A,#'G',ko_phai_G
+                      78                             ;PHAI2S
+004C 1180             79                             ACALL PHAI
+004E 1162             80                             ACALL DELAY1S
+0050 1162             81                             ACALL DELAY1S   
+                      82                             
+                      83                             ;DUNG1S
+0052 118A             84                             ACALL STOP
+0054 1162             85                             ACALL DELAY1S
+                      86                             
+                      87                             ;TRAI2S
+0056 1176             88                             ACALL TRAI
+0058 1162             89                             ACALL DELAY1S
+005A 1162             90                             ACALL DELAY1S   
+                      91                             
+                      92                             ;DUNG1S
+005C 118A             93                             ACALL STOP
+005E 1162             94                             ACALL DELAY1S
+                      95                             
+                      96                             ;MOV A,#0   ; A VAN LA 'G'
+0060 22               97                             RET
+0061                  98                     ko_phai_G:
+0061 22               99             ret
+                     100             
+0062                 101             DELAY1S:
+                     102                     ;SU DUNG TIMER0 MODE1 16 BIT
+0062 7814            103                     MOV R0,#20
+0064                 104                     LAP:                       ; -50000 = 3CB0H (16 BIT)
+0064 758C3C          105                             MOV TH0,#HIGH(-50000 ) ; -50000 LA 1 DAY BIN MA + 50000 -> 0
+0067 758AB0          106                             MOV TL0,#LOW (-50000)  ; HIGH TRA VE 8 BIT CAO = 3CH
+                     107                                                    ; LOW TRA VE 8 BIT THAP = B0H
+006A D28C            108                             SETB TR0   ; TIMER0 BAT DAU CHAY
+006C 308DFD          109                             JNB TF0,$  ; DOI TIMER0 TRAN
+006F C28C            110                             CLR TR0    ;XOA CO CHAY
+0071 C28D            111                             CLR TF0    ;XOA CO TRAN
+0073 D8EF            112                     DJNZ R0,LAP    ; GIAM R0 DI 1 DV, SO SANH R0 NOT ZERO: THEN JUMP TO LAP
+0075 22              113             RET
+                     114             
+0076                 115             TRAI:
+0076 D293            116                     setb dk1
+0078 C295            117                     clr  dk2
+007A 9000A9          118                     MOV DPTR,#S1
+007D 1194            119                     ACALL TRUYEN_STRING
+007F 22              120             RET
+                     121             
+0080                 122             PHAI:
+0080 D295            123                     setb dk2
+A51 MACRO ASSEMBLER  CODE_MAY_GIAT                                                        02/20/2023 15:41:51 PAGE     3
+
+0082 C293            124                     clr  dk1
+0084 9000BE          125                     MOV DPTR,#S2
+0087 1194            126                     ACALL TRUYEN_STRING
+0089 22              127             RET
+                     128             
+008A                 129             STOP:
+008A D293            130                     SETB dk1
+008C D295            131                     SETB dk2
+008E 9000DB          132                     MOV DPTR,#S3
+0091 1194            133                     ACALL TRUYEN_STRING
+0093 22              134             RET
+                     135             
+                     136             ;DPTR DANG TRO VAO DAU STRING
+0094                 137             TRUYEN_STRING:
+0094 F530            138                     MOV 30H,A               ; BACKUP
+0096 7900            139                     MOV R1,#0
+0098                 140                     TRUYEN:
+0098 E9              141                             MOV A,R1
+0099 93              142                             MOVC A,@A+DPTR                  
+009A 600A            143                             JZ TRUYEN_XONG
+009C F599            144                             MOV SBUF,A
+009E C299            145                             CLR TI
+00A0 3099FD          146                             JNB TI,$
+00A3 09              147                             INC R1
+00A4 80F2            148                     JMP TRUYEN
+00A6                 149                     TRUYEN_XONG:
+00A6 E530            150                     MOV A,30H               ;RESTORE
+00A8 22              151             RET
+                     152             
+00A9 202D3E20        153             S1: DB " -> DANG QUAY TRAI",10,13,0
+00AD 44414E47                
+00B1 20515541                
+00B5 59205452                
+00B9 41490A0D                
+00BD 00                      
+00BE 202D3E20        154             S2: DB " -> DONG CO DANG QUAY PHAI",10,13,0
+00C2 444F4E47                
+00C6 20434F20                
+00CA 44414E47                
+00CE 20515541                
+00D2 59205048                
+00D6 41490A0D                
+00DA 00                      
+00DB 202D3E20        155             S3: DB " -> STOP ROI NHE",10,13,0
+00DF 53544F50                
+00E3 20524F49                
+00E7 204E4845                
+00EB 0A0D00                  
+00EE 202D3E20        156             S4: DB " -> STOP DO S OR D NHE ",10,13,0
+00F2 53544F50                
+00F6 20444F20                
+00FA 53204F52                
+00FE 2044204E                
+0102 4845200A                
+0106 0D00                    
+                     157     END
+A51 MACRO ASSEMBLER  CODE_MAY_GIAT                                                        02/20/2023 15:41:51 PAGE     4
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+ACC. . . . . . . .  D ADDR   00E0H   A   
+DELAY1S. . . . . .  C ADDR   0062H   A   
+DIEUKHIENDC. . . .  C ADDR   0027H   A   
+DK1. . . . . . . .  B ADDR   0090H.3 A   
+DK2. . . . . . . .  B ADDR   0090H.5 A   
+DO_STOP. . . . . .  C ADDR   003FH   A   
+KO_PHAI_D. . . . .  C ADDR   0049H   A   
+KO_PHAI_G. . . . .  C ADDR   0061H   A   
+KO_PHAI_P. . . . .  C ADDR   002FH   A   
+KO_PHAI_S. . . . .  C ADDR   003CH   A   
+KO_PHAI_T. . . . .  C ADDR   0037H   A   
+LAP. . . . . . . .  C ADDR   0064H   A   
+MAIN . . . . . . .  C ADDR   0017H   A   
+NHAN1KITU. . . . .  C ADDR   001DH   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+PCON . . . . . . .  D ADDR   0087H   A   
+PHAI . . . . . . .  C ADDR   0080H   A   
+RI . . . . . . . .  B ADDR   0098H.0 A   
+S1 . . . . . . . .  C ADDR   00A9H   A   
+S2 . . . . . . . .  C ADDR   00BEH   A   
+S3 . . . . . . . .  C ADDR   00DBH   A   
+S4 . . . . . . . .  C ADDR   00EEH   A   
+SBUF . . . . . . .  D ADDR   0099H   A   
+SCON . . . . . . .  D ADDR   0098H   A   
+STOP . . . . . . .  C ADDR   008AH   A   
+TF0. . . . . . . .  B ADDR   0088H.5 A   
+TH0. . . . . . . .  D ADDR   008CH   A   
+TH1. . . . . . . .  D ADDR   008DH   A   
+TI . . . . . . . .  B ADDR   0098H.1 A   
+TL0. . . . . . . .  D ADDR   008AH   A   
+TMOD . . . . . . .  D ADDR   0089H   A   
+TR0. . . . . . . .  B ADDR   0088H.4 A   
+TR1. . . . . . . .  B ADDR   0088H.6 A   
+TRAI . . . . . . .  C ADDR   0076H   A   
+TRUYEN . . . . . .  C ADDR   0098H   A   
+TRUYEN_STRING. . .  C ADDR   0094H   A   
+TRUYEN_XONG. . . .  C ADDR   00A6H   A   
+WAIT . . . . . . .  C ADDR   001FH   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

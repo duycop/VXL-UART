@@ -1,15 +1,15 @@
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                    02/13/2023  15:37:31  PAGE 1
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                    02/20/2023  15:41:51  PAGE 1
 
 
 BL51 BANKED LINKER/LOCATER V6.22.2.0, INVOKED BY:
-D:\KEIL_V5\C51\BIN\BL51.EXE .\Objects\CODE_HELLO.obj TO .\Objects\DK_UART PRINT (.\Listings\DK_UART.m51)
+D:\KEIL_V5\C51\BIN\BL51.EXE .\Objects\code_may_giat.obj TO .\Objects\DK_UART PRINT (.\Listings\DK_UART.m51)
 
 
 INPUT MODULES INCLUDED:
-  .\Objects\CODE_HELLO.obj (CODE_HELLO)
+  .\Objects\code_may_giat.obj (CODE_MAY_GIAT)
 
 
-LINK MAP OF MODULE:  .\Objects\DK_UART (CODE_HELLO)
+LINK MAP OF MODULE:  .\Objects\DK_UART (CODE_MAY_GIAT)
 
 
             TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
@@ -19,108 +19,148 @@ LINK MAP OF MODULE:  .\Objects\DK_UART (CODE_HELLO)
             REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
 
             * * * * * * *   C O D E   M E M O R Y   * * * * * * *
-            CODE    0000H     0083H     ABSOLUTE     
+            CODE    0000H     0108H     ABSOLUTE     
 
 
 
-SYMBOL TABLE OF MODULE:  .\Objects\DK_UART (CODE_HELLO)
+SYMBOL TABLE OF MODULE:  .\Objects\DK_UART (CODE_MAY_GIAT)
 
   VALUE           TYPE          NAME
   ----------------------------------
 
-  -------         MODULE        CODE_HELLO
-  C:005AH         SYMBOL        CHECK_NUT_BAM
-  C:0017H         SYMBOL        CHECK_RX_DATA
-  C:0019H         SYMBOL        DOI_NHAN_XONG
-  C:0074H         SYMBOL        HELLO
-  C:0059H         SYMBOL        KO_PHAI_0
-  C:0037H         SYMBOL        KO_PHAI_1
-  C:0041H         SYMBOL        KO_PHAI_2
-  C:004BH         SYMBOL        KO_PHAI_3
-  C:003CH         SYMBOL        KO_PHAI_4
-  C:0046H         SYMBOL        KO_PHAI_5
-  C:0050H         SYMBOL        KO_PHAI_6
-  C:0032H         SYMBOL        KO_PHAI_A
-  C:0029H         SYMBOL        KO_PHAI_T
-  B:00A0H.0       SYMBOL        LED1
-  B:00A0H.1       SYMBOL        LED2
-  B:00A0H.2       SYMBOL        LED3
-  C:0011H         SYMBOL        MAIN
-  B:00A0H.7       SYMBOL        NUT
-  C:0073H         SYMBOL        NUT_KO_BAM
-  D:00A0H         SYMBOL        P2
+  -------         MODULE        CODE_MAY_GIAT
+  D:00E0H         SYMBOL        ACC
+  C:0062H         SYMBOL        DELAY1S
+  C:0027H         SYMBOL        DIEUKHIENDC
+  B:0090H.3       SYMBOL        DK1
+  B:0090H.5       SYMBOL        DK2
+  C:003FH         SYMBOL        DO_STOP
+  C:0049H         SYMBOL        KO_PHAI_D
+  C:0061H         SYMBOL        KO_PHAI_G
+  C:002FH         SYMBOL        KO_PHAI_P
+  C:003CH         SYMBOL        KO_PHAI_S
+  C:0037H         SYMBOL        KO_PHAI_T
+  C:0064H         SYMBOL        LAP
+  C:0017H         SYMBOL        MAIN
+  C:001DH         SYMBOL        NHAN1KITU
+  D:0090H         SYMBOL        P1
+  D:0087H         SYMBOL        PCON
+  C:0080H         SYMBOL        PHAI
   B:0098H.0       SYMBOL        RI
+  C:00A9H         SYMBOL        S1
+  C:00BEH         SYMBOL        S2
+  C:00DBH         SYMBOL        S3
+  C:00EEH         SYMBOL        S4
   D:0099H         SYMBOL        SBUF
   D:0098H         SYMBOL        SCON
+  C:008AH         SYMBOL        STOP
+  B:0088H.5       SYMBOL        TF0
+  D:008CH         SYMBOL        TH0
   D:008DH         SYMBOL        TH1
   B:0098H.1       SYMBOL        TI
+  D:008AH         SYMBOL        TL0
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  02/20/2023  15:41:51  PAGE 2
+
+
   D:0089H         SYMBOL        TMOD
+  B:0088H.4       SYMBOL        TR0
   B:0088H.6       SYMBOL        TR1
-  C:0062H         SYMBOL        TRUYEN_1_CHAR
-  C:0070H         SYMBOL        TRUYEN_XONG
-  C:0000H         LINE#         14
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  02/13/2023  15:37:31  PAGE 2
+  C:0076H         SYMBOL        TRAI
+  C:0098H         SYMBOL        TRUYEN
+  C:0094H         SYMBOL        TRUYEN_STRING
+  C:00A6H         SYMBOL        TRUYEN_XONG
+  C:001FH         SYMBOL        WAIT
+  C:0000H         LINE#         16
+  C:0002H         LINE#         17
+  C:0004H         LINE#         19
+  C:0007H         LINE#         21
+  C:000AH         LINE#         22
+  C:000CH         LINE#         23
+  C:000FH         LINE#         28
+  C:0011H         LINE#         29
+  C:0013H         LINE#         30
+  C:0015H         LINE#         32
+  C:0017H         LINE#         34
+  C:0019H         LINE#         35
+  C:001BH         LINE#         36
+  C:001DH         LINE#         39
+  C:001FH         LINE#         41
+  C:0021H         LINE#         42
+  C:0024H         LINE#         43
+  C:0026H         LINE#         44
+  C:0027H         LINE#         48
+  C:002AH         LINE#         50
+  C:002CH         LINE#         51
+  C:002EH         LINE#         52
+  C:002FH         LINE#         55
+  C:0032H         LINE#         57
+  C:0034H         LINE#         58
+  C:0036H         LINE#         59
+  C:0037H         LINE#         63
+  C:003AH         LINE#         64
+  C:003CH         LINE#         67
+  C:003FH         LINE#         70
+  C:0041H         LINE#         71
+  C:0044H         LINE#         72
+  C:0046H         LINE#         73
+  C:0048H         LINE#         74
+  C:0049H         LINE#         77
+  C:004CH         LINE#         79
+  C:004EH         LINE#         80
+  C:0050H         LINE#         81
+  C:0052H         LINE#         84
+  C:0054H         LINE#         85
+  C:0056H         LINE#         88
+  C:0058H         LINE#         89
+  C:005AH         LINE#         90
+  C:005CH         LINE#         93
+  C:005EH         LINE#         94
+  C:0060H         LINE#         97
+  C:0061H         LINE#         99
+  C:0062H         LINE#         103
+  C:0064H         LINE#         105
+BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  02/20/2023  15:41:51  PAGE 3
 
 
-  C:0002H         LINE#         15
-  C:0004H         LINE#         16
-  C:0006H         LINE#         18
-  C:0009H         LINE#         19
-  C:000CH         LINE#         20
-  C:000EH         LINE#         21
-  C:0011H         LINE#         24
-  C:0013H         LINE#         26
-  C:0015H         LINE#         29
-  C:0017H         LINE#         33
-  C:0019H         LINE#         36
-  C:001BH         LINE#         37
-  C:001EH         LINE#         39
-  C:0020H         LINE#         42
-  C:0023H         LINE#         43
-  C:0025H         LINE#         44
-  C:0027H         LINE#         45
-  C:0029H         LINE#         48
-  C:002CH         LINE#         49
-  C:002EH         LINE#         50
-  C:0030H         LINE#         51
-  C:0032H         LINE#         54
-  C:0035H         LINE#         55
-  C:0037H         LINE#         58
-  C:003AH         LINE#         59
-  C:003CH         LINE#         62
-  C:003FH         LINE#         63
-  C:0041H         LINE#         66
-  C:0044H         LINE#         67
-  C:0046H         LINE#         70
-  C:0049H         LINE#         71
-  C:004BH         LINE#         74
-  C:004EH         LINE#         75
-  C:0050H         LINE#         78
-  C:0053H         LINE#         79
-  C:0055H         LINE#         80
-  C:0057H         LINE#         81
-  C:0059H         LINE#         83
-  C:005AH         LINE#         86
-  C:005DH         LINE#         88
-  C:0060H         LINE#         89
-  C:0062H         LINE#         91
-  C:0063H         LINE#         92
-  C:0064H         LINE#         93
-  C:0066H         LINE#         94
-  C:0068H         LINE#         95
-  C:006AH         LINE#         97
-  C:006DH         LINE#         98
-  C:006EH         LINE#         99
-  C:0070H         LINE#         101
-  C:0073H         LINE#         103
-  -------         ENDMOD        CODE_HELLO
+  C:0067H         LINE#         106
+  C:006AH         LINE#         108
+  C:006CH         LINE#         109
+  C:006FH         LINE#         110
+  C:0071H         LINE#         111
+  C:0073H         LINE#         112
+  C:0075H         LINE#         113
+  C:0076H         LINE#         116
+  C:0078H         LINE#         117
+  C:007AH         LINE#         118
+  C:007DH         LINE#         119
+  C:007FH         LINE#         120
+  C:0080H         LINE#         123
+  C:0082H         LINE#         124
+  C:0084H         LINE#         125
+  C:0087H         LINE#         126
+  C:0089H         LINE#         127
+  C:008AH         LINE#         130
+  C:008CH         LINE#         131
+  C:008EH         LINE#         132
+  C:0091H         LINE#         133
+  C:0093H         LINE#         134
+  C:0094H         LINE#         138
+  C:0096H         LINE#         139
+  C:0098H         LINE#         141
+  C:0099H         LINE#         142
+  C:009AH         LINE#         143
+  C:009CH         LINE#         144
+  C:009EH         LINE#         145
+  C:00A0H         LINE#         146
+  C:00A3H         LINE#         147
+  C:00A4H         LINE#         148
+  C:00A6H         LINE#         150
+  C:00A8H         LINE#         151
+  -------         ENDMOD        CODE_MAY_GIAT
 
 ******************************************************************************
-* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 0083H BYTE ( 6%) *
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 0108H BYTE (12%) *
 ******************************************************************************
 
-BL51 BANKED LINKER/LOCATER V6.22.2.0                                                  02/13/2023  15:37:31  PAGE 3
-
-
-Program Size: data=8.0 xdata=0 code=131
+Program Size: data=8.0 xdata=0 code=264
 LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)
